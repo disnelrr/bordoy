@@ -9,6 +9,8 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Alert,
+  AlertTitle,
   ChakraProvider,
   Input,
 } from "@chakra-ui/react";
@@ -17,8 +19,10 @@ import { useState } from "react";
 function App() {
   const [data, setData] = useState(false);
   const [idCard, setIdCard] = useState("");
+  const [status, setStatus] = useState("");
 
   const fetchData = () => {
+    setStatus("Fetching data...");
     fetch(
       `https://www.solvebigtech.com/bordoy/service/index.php?funcname=status&enterprise=bordoy&identity=${idCard}&apikey=bcURfJhHPCNBT4i7ANhVKQDw62e32W`
     )
@@ -26,6 +30,7 @@ function App() {
       .then((jsonData) => {
         // jsonData is parsed json object received from url
         setData(jsonData);
+        setStatus("Data received!");
       })
       .catch((error) => {
         // handle your errors here
@@ -42,19 +47,25 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Box className='App' w={"50%"} margin='auto'>
-        <Text fontSize='2xl' fontWeight='bold'>
+      <Box className='App' w={{ base: "100%", md: "50%" }} m='auto' p={10}>
+        <Text fontSize='2xl' fontWeight='bold' mb={5}>
           Bordoy Group Tracking Numbers
         </Text>
         <Flex>
           <Input
             placeholder='Enter your ID card'
             onChange={(e) => setIdCard(e.target.value)}
+            mr={5}
           />
           <Button onClick={fetchData} leftIcon={<FaSyncAlt />}>
             Refresh
           </Button>
         </Flex>
+        {status ? (
+          <Alert mt={5}>
+            <AlertTitle>{status}</AlertTitle>
+          </Alert>
+        ) : null}
         <Accordion py={8}>
           {elements.map((parcel, index) => {
             return (
