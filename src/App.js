@@ -14,10 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-const userID = "83062323229";
-const URL =
-  "https://www.solvebigtech.com/bordoy/service/index.php?funcname=status&enterprise=bordoy&identity=83062323229&apikey=bcURfJhHPCNBT4i7ANhVKQDw62e32W";
-
 function App() {
   const [data, setData] = useState(false);
   const [idCard, setIdCard] = useState("");
