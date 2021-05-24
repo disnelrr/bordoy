@@ -1,25 +1,36 @@
 import { Button } from "@chakra-ui/button";
-import { Flex, Text } from "@chakra-ui/layout";
+import { Flex, Stack, Text } from "@chakra-ui/layout";
 import { Box } from "@chakra-ui/layout";
 import { FaSyncAlt } from "react-icons/fa";
 import "./App.css";
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Alert,
   AlertTitle,
   ChakraProvider,
   Input,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import AccordionFormatter from "./AccordionFormatter";
+import TableFormatter from "./TableFormatter";
+
+const ContentDisplay = ({ view, elements }) => {
+  switch (view) {
+    case "accordion":
+      return <AccordionFormatter elements={elements} />;
+    case "table":
+      return <TableFormatter elements={elements} />;
+    default:
+      return <Alert>List not implemented yet!</Alert>;
+  }
+};
 
 function App() {
   const [data, setData] = useState(false);
   const [idCard, setIdCard] = useState("");
   const [status, setStatus] = useState("");
+  const [view, setView] = useState("table");
 
   const fetchData = () => {
     setStatus("Fetching data...");
@@ -66,32 +77,14 @@ function App() {
             <AlertTitle>{status}</AlertTitle>
           </Alert>
         ) : null}
-        <Accordion py={8}>
-          {elements.map((parcel, index) => {
-            return (
-              <AccordionItem key={index}>
-                <Text color={parcel.depdate ? "green" : null} fontWeight='bold'>
-                  <AccordionButton>
-                    <Box flex='1' textAlign='left'>
-                      {parcel.hbl} -{" "}
-                      <span fontWeight='bold'>{parcel.noorder}</span>
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </Text>
-                <AccordionPanel pb={4}>
-                  <Box>Status: {parcel.status}</Box>
-                  <Box>
-                    Departure Date:{" "}
-                    {parcel.depdate
-                      ? parcel.depdate
-                      : "No departed date yet for this item!"}
-                  </Box>
-                </AccordionPanel>
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
+        <RadioGroup onChange={setView} value={view} my={3}>
+          <Stack direction='row'>
+            <Radio value='accordion'>Accordion</Radio>
+            <Radio value='table'>Table</Radio>
+            <Radio value='list'>List</Radio>
+          </Stack>
+        </RadioGroup>
+        <ContentDisplay view={view} elements={elements} />
       </Box>
     </ChakraProvider>
   );
