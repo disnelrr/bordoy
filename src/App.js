@@ -73,14 +73,14 @@ function App() {
                 <Text color={parcel.depdate ? "green" : null} fontWeight='bold'>
                   <AccordionButton>
                     <Box flex='1' textAlign='left'>
-                      {parcel.hbl}
+                      {parcel.hbl} -{" "}
+                      <span fontWeight='bold'>{parcel.noorder}</span>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </Text>
                 <AccordionPanel pb={4}>
                   <Box>Status: {parcel.status}</Box>
-                  <Box>Bill: {parcel.noorder}</Box>
                   <Box>
                     Departure Date:{" "}
                     {parcel.depdate
