@@ -29,7 +29,7 @@ const ContentDisplay = ({ view, elements }) => {
 function App() {
   const [data, setData] = useState(false);
   const [idCard, setIdCard] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("No data, please update!");
   const [view, setView] = useState("table");
 
   const fetchData = () => {
@@ -76,19 +76,22 @@ function App() {
             Refresh
           </Button>
         </Flex>
-        {status ? (
+        {data && status !== "Fetching data..." ? (
+          <>
+            <RadioGroup onChange={setView} value={view} my={3}>
+              <Stack direction='row'>
+                <Radio value='accordion'>Accordion</Radio>
+                <Radio value='table'>Table</Radio>
+                <Radio value='list'>List</Radio>
+              </Stack>
+            </RadioGroup>
+            <ContentDisplay view={view} elements={elements} />
+          </>
+        ) : (
           <Alert mt={5}>
             <AlertTitle>{status}</AlertTitle>
           </Alert>
-        ) : null}
-        <RadioGroup onChange={setView} value={view} my={3}>
-          <Stack direction='row'>
-            <Radio value='accordion'>Accordion</Radio>
-            <Radio value='table'>Table</Radio>
-            <Radio value='list'>List</Radio>
-          </Stack>
-        </RadioGroup>
-        <ContentDisplay view={view} elements={elements} />
+        )}
       </Box>
     </ChakraProvider>
   );
