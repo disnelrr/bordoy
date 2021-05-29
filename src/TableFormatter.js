@@ -16,9 +16,10 @@ const TableFormatter = ({ elements }) => {
       <Thead>
         <Tr>
           <Th>Bill</Th>
-          <Th>Tracking Number</Th>
+          <Th>Track Number</Th>
           <Th>Status</Th>
           <Th>Dep. date</Th>
+          <Th>Mail guide</Th>
         </Tr>
       </Thead>
       <Tbody>
@@ -33,6 +34,7 @@ const TableFormatter = ({ elements }) => {
                 </Text>
               </Td>
               <Td>{parcel.depdate ? parcel.depdate : "no date"}</Td>
+              <Td>{parcel.mailguide ? parcel.mailguide : "no mail guide"}</Td>
             </Tr>
           );
         })}

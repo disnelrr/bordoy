@@ -11,7 +11,7 @@ import {
   Radio,
   RadioGroup,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AccordionFormatter from "./AccordionFormatter";
 import TableFormatter from "./TableFormatter";
 
@@ -31,22 +31,42 @@ function App() {
   const [idCard, setIdCard] = useState("");
   const [status, setStatus] = useState("No data, please update!");
   const [view, setView] = useState("table");
+  const cardInput = useRef(null);
 
   const fetchData = () => {
-    setStatus("Fetching data...");
-    fetch(
-      `https://www.solvebigtech.com/bordoy/service/index.php?funcname=status&enterprise=bordoy&identity=${idCard}&apikey=bcURfJhHPCNBT4i7ANhVKQDw62e32W`
-    )
-      .then((response) => response.json())
-      .then((jsonData) => {
-        // jsonData is parsed json object received from url
-        setData(jsonData);
-        setStatus("Data received!");
-      })
-      .catch((error) => {
-        // handle your errors here
-        console.error(error);
-      });
+    setData(false);
+    idCard === undefined || idCard === null
+      ? setIdCard("")
+      : setIdCard(cardInput.current.value);
+    if (idCard.length !== 11) {
+      setStatus("Incorrect ID card, must have 11 digits!");
+    } else {
+      setStatus("Fetching data...");
+      fetch(
+        `https://www.solvebigtech.com/bordoy/service/index.php?funcname=status&enterprise=bordoy&identity=${idCard}&apikey=bcURfJhHPCNBT4i7ANhVKQDw62e32W`
+      )
+        .then((response) => response.json())
+        .then((jsonData) => {
+          if (jsonData[idCard].length) {
+            setStatus("Data received!");
+            setData(jsonData);
+          } else {
+            setStatus("No data received for that ID, please check!");
+            setData(false);
+          }
+        })
+        .catch((error) => {
+          // handle your errors here
+          console.error(error);
+        });
+    }
+  };
+
+  const queryData = (key, value) => {
+    if (key === "Enter") {
+      setIdCard(value);
+      fetchData();
+    }
   };
 
   let elements = [];
@@ -66,7 +86,9 @@ function App() {
           <Input
             placeholder='Enter your ID card'
             onChange={(e) => setIdCard(e.target.value)}
+            onKeyPress={(e) => queryData(e.key, e.target.value)}
             mr={5}
+            ref={cardInput}
           />
           <Button
             onClick={fetchData}

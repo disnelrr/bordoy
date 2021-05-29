@@ -29,6 +29,12 @@ const AccordionFormatter = ({ elements }) => {
                   ? parcel.depdate
                   : "No departed date yet for this item!"}
               </Box>
+              <Box>
+                Mail Guide:{" "}
+                {parcel.mailguide
+                  ? parcel.mailguide
+                  : "No mail guide yet for this item!"}
+              </Box>
             </AccordionPanel>
           </AccordionItem>
         );
