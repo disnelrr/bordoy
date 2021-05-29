@@ -32,7 +32,7 @@ const TableFormatter = ({ elements }) => {
                   {parcel.status}
                 </Text>
               </Td>
-              <Td>{parcel.depdate}</Td>
+              <Td>{parcel.depdate ? parcel.depdate : "no date"}</Td>
             </Tr>
           );
         })}

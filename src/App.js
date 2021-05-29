@@ -58,17 +58,21 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Box className='App' w={{ base: "100%", md: "50%" }} m='auto' p={10}>
+      <Box className='App' w={{ base: "100%", md: "50%" }} m='auto' p={5}>
         <Text fontSize='2xl' fontWeight='bold' mb={5}>
           Bordoy Group Tracking Numbers
         </Text>
-        <Flex>
+        <Flex flexWrap={{ base: "wrap", md: "nowrap" }}>
           <Input
             placeholder='Enter your ID card'
             onChange={(e) => setIdCard(e.target.value)}
             mr={5}
           />
-          <Button onClick={fetchData} leftIcon={<FaSyncAlt />}>
+          <Button
+            onClick={fetchData}
+            leftIcon={<FaSyncAlt />}
+            marginTop={{ base: 3, md: 0 }}
+          >
             Refresh
           </Button>
         </Flex>
