@@ -5,6 +5,7 @@ import { FaSyncAlt } from "react-icons/fa";
 import "./App.css";
 import {
   Alert,
+  AlertIcon,
   AlertTitle,
   ChakraProvider,
   Input,
@@ -31,6 +32,7 @@ function App() {
   const [idCard, setIdCard] = useState("");
   const [status, setStatus] = useState("No data, please update!");
   const [view, setView] = useState("table");
+  const [lastUpdate, setLastUpdate] = useState(false);
   const cardInput = useRef(null);
 
   const fetchData = useCallback(() => {
@@ -50,6 +52,7 @@ function App() {
           if (jsonData[idCard].length) {
             setStatus("Data received!");
             setData(jsonData);
+            setLastUpdate(new Date());
           } else {
             setStatus("No data received for that ID, please check!");
             setData(false);
@@ -114,6 +117,14 @@ function App() {
                 <Radio value='list'>List</Radio>
               </Stack>
             </RadioGroup>
+            {lastUpdate ? (
+              <Alert mb={5} status='success' variant='left-accent'>
+                <AlertIcon />
+                <AlertTitle>
+                  Last update: {lastUpdate.toLocaleTimeString()}
+                </AlertTitle>
+              </Alert>
+            ) : null}
             <ContentDisplay view={view} elements={elements} />
           </>
         ) : (
