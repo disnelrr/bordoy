@@ -11,7 +11,7 @@ import {
   Radio,
   RadioGroup,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import AccordionFormatter from "./AccordionFormatter";
 import TableFormatter from "./TableFormatter";
 
@@ -33,7 +33,7 @@ function App() {
   const [view, setView] = useState("table");
   const cardInput = useRef(null);
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     setData(false);
     idCard === undefined || idCard === null
       ? setIdCard("")
@@ -60,7 +60,14 @@ function App() {
           console.error(error);
         });
     }
-  };
+  }, [idCard]);
+
+  useEffect(() => {
+    const interval = setInterval(fetchData, 300_000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [fetchData]);
 
   const queryData = (key, value) => {
     if (key === "Enter") {
