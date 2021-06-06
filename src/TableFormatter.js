@@ -41,7 +41,12 @@ const TableFormatter = ({ elements }) => {
               <Td>{parcel.noorder}</Td>
               <Td>{parcel.hbl}</Td>
               <Td>
-                <Text color={parcel.depdate ? "green" : null} fontWeight='bold'>
+                <Text
+                  color={parcel.status === "EN CONSIGNATARIO" ? "green" : null}
+                  fontWeight={
+                    parcel.status === "EN CONSIGNATARIO" ? "bold" : null
+                  }
+                >
                   {parcel.status}
                 </Text>
               </Td>
