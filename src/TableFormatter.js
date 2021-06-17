@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-const getETA = (date, start = 19, end = 22) => {
+const getETA = (date, start = 18, end = 25) => {
   const dateObj = new Date(date);
   const startDate = new Date(Number(dateObj));
   const endDate = new Date(Number(dateObj));
@@ -20,7 +20,7 @@ const getETA = (date, start = 19, end = 22) => {
   })} - ${endDate.toLocaleString([], { dateStyle: "short" })}`;
 };
 
-const isInETA = (date, start = 18, end = 23) => {
+const isInETA = (date, start = 17, end = 26) => {
   const dateObj = new Date(date);
   const today = new Date();
   const startDate = new Date(Number(dateObj));
@@ -32,7 +32,7 @@ const isInETA = (date, start = 18, end = 23) => {
   );
 };
 
-const isAfterETA = (date, end = 22) => {
+const isAfterETA = (date, end = 25) => {
   const dateObj = new Date(date);
   const today = new Date();
   const endDate = new Date(Number(dateObj));
